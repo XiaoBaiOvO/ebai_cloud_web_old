@@ -1,6 +1,7 @@
 // @ts-ignore
 /* eslint-disable */
-import {request} from '@umijs/max';
+import { request } from '@umijs/max';
+import axios from 'axios';
 
 /** 获取当前的用户 GET /api/currentUser */
 export async function currentUser(options?: { [key: string]: any }) {
@@ -29,6 +30,14 @@ export async function login(body: API.LoginParams, options?: { [key: string]: an
     },
     data: body,
     ...(options || {}),
+  });
+}
+
+export function testLogin() {
+  return new Promise((resolve, reject) => {
+    axios.post('/api/test').then((result) => {
+      resolve(result);
+    });
   });
 }
 

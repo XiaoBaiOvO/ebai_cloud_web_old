@@ -1,11 +1,11 @@
 // https://umijs.org/config/
-import {defineConfig} from '@umijs/max';
-import {join} from 'path';
+import { defineConfig } from '@umijs/max';
+import { join } from 'path';
 import defaultSettings from './defaultSettings';
 import proxy from './proxy';
 import routes from './routes';
 
-const {REACT_APP_ENV} = process.env;
+const { REACT_APP_ENV } = process.env;
 
 export default defineConfig({
   hash: true,
@@ -40,6 +40,7 @@ export default defineConfig({
     // 只有设置为 variable， 才能使用 configProvide 动态设置主色调
     // https://ant.design/docs/react/customize-theme-variable-cn
     'root-entry-name': 'variable',
+    'primary-color': '#ef9550',
   },
   ignoreMomentLocale: true,
   proxy: proxy[REACT_APP_ENV || 'dev'],
@@ -63,4 +64,7 @@ export default defineConfig({
       projectName: 'swagger',
     },
   ],
+  mfsu: {
+    mfName: 'app',
+  },
 });
