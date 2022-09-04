@@ -41,6 +41,38 @@ export function testLogin() {
   });
 }
 
+export async function getCommentList(options?: { [key: string]: any }) {
+  return request<API.CommentListType[]>('/api/comment/getCommentList', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    ...(options || {}),
+  });
+}
+
+export function likeComment(body: API.CommentLikeRequest, options?: { [key: string]: any }) {
+  return request<API.CommentListType[]>('/api/comment/like', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  });
+}
+
+export function dislikeComment(body: API.CommentLikeRequest, options?: { [key: string]: any }) {
+  return request<API.CommentListType[]>('/api/comment/dislike', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  });
+}
+
 /** 此处后端没有提供注释 GET /api/notices */
 export async function getNotices(options?: { [key: string]: any }) {
   return request<API.NoticeIconList>('/api/notices', {

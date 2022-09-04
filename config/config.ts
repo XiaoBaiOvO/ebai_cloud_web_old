@@ -65,4 +65,7 @@ export default defineConfig({
       projectName: 'swagger',
     },
   ],
+  mfsu: {
+    mfName: 'app',
+  },
 });

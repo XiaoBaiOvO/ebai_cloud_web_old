@@ -1,5 +1,5 @@
 import Footer from '@/components/Footer';
-import { login } from '@/services/ant-design-pro/api';
+import { login, testLogin } from '@/services/ant-design-pro/api';
 import { getFakeCaptcha } from '@/services/ant-design-pro/login';
 import {
   AlipayCircleOutlined,
@@ -85,8 +85,8 @@ const Login: React.FC = () => {
   const { status, type: loginType } = userLoginState;
 
   useEffect(() => {
-    // const testLoginMsg = testLogin();
-    // console.log(testLoginMsg);
+    const testLoginMsg = testLogin();
+    console.log(testLoginMsg);
     msg111.name = 'useEffect';
     setMsg111({ ...msg111 });
     console.log(msg111);

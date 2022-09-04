@@ -29,6 +29,17 @@ declare namespace API {
     currentAuthority?: string;
   };
 
+  type CommentListType = {
+    id: string;
+    author: string;
+    avatar: string;
+    content: string;
+    datetime: string;
+    likes: string[];
+    dislikes: string[];
+    reply: { author: string; avatar: string; content: string; datetime: string }[];
+  };
+
   type PageParams = {
     current?: number;
     pageSize?: number;
@@ -97,5 +108,16 @@ declare namespace API {
     datetime?: string;
     description?: string;
     type?: NoticeIconItemType;
+  };
+
+  // comment type
+  type CommentAction = {
+    id?: string;
+    action?: boolean;
+  };
+
+  type CommentLikeRequest = {
+    userid?: string;
+    id?: string;
   };
 }
