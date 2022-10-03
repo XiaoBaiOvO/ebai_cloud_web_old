@@ -1,7 +1,9 @@
+import News from '@/components/News';
 import { PageContainer } from '@ant-design/pro-components';
 import { Card, Carousel, Col, Row } from 'antd';
 import React from 'react';
 import ChatBox from '../components/ChatBox/index';
+import PersonalInfo from '../components/PersonalInfo/index';
 
 const contentStyle1: React.CSSProperties = {
   height: '200px',
@@ -38,6 +40,16 @@ const Welcome: React.FC = () => {
           <div>
             <Card
               style={{ marginBottom: 24 }}
+              title="热点新闻"
+              bordered={false}
+              bodyStyle={{ padding: 0 }}
+            >
+              <News />
+            </Card>
+          </div>
+          <div>
+            <Card
+              style={{ marginBottom: 24 }}
               title="小白云社区"
               bordered={false}
               bodyStyle={{ padding: 0 }}
@@ -53,7 +65,9 @@ const Welcome: React.FC = () => {
             title="个人中心"
             bordered={false}
             bodyStyle={{ padding: 0 }}
-          ></Card>
+          >
+            <PersonalInfo />
+          </Card>
         </Col>
       </Row>
     </PageContainer>

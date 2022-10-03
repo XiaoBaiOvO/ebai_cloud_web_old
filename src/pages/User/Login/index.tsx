@@ -1,5 +1,5 @@
 import Footer from '@/components/Footer';
-import { login, testLogin } from '@/services/ant-design-pro/api';
+import { login } from '@/services/ant-design-pro/api';
 import { getFakeCaptcha } from '@/services/ant-design-pro/login';
 import {
   AlipayCircleOutlined,
@@ -17,7 +17,7 @@ import {
 } from '@ant-design/pro-components';
 import { FormattedMessage, history, SelectLang, useIntl, useModel } from '@umijs/max';
 import { Alert, message, Tabs } from 'antd';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styles from './index.less';
 
 const LoginMessage: React.FC<{
@@ -34,14 +34,11 @@ const LoginMessage: React.FC<{
     />
   );
 };
-type msgType = {
-  name: string;
-};
+
 const Login: React.FC = () => {
   const [userLoginState, setUserLoginState] = useState<API.LoginResult>({});
   const [type, setType] = useState<string>('account');
   const { initialState, setInitialState } = useModel('@@initialState');
-  const [msg111, setMsg111] = useState<msgType>({ name: 'bbb' });
 
   const intl = useIntl();
 
@@ -83,14 +80,6 @@ const Login: React.FC = () => {
     }
   };
   const { status, type: loginType } = userLoginState;
-
-  useEffect(() => {
-    const testLoginMsg = testLogin();
-    console.log(testLoginMsg);
-    msg111.name = 'useEffect';
-    setMsg111({ ...msg111 });
-    console.log(msg111);
-  }, []);
 
   return (
     <div className={styles.container}>

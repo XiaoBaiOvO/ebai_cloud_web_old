@@ -73,6 +73,28 @@ export function dislikeComment(body: API.CommentLikeRequest, options?: { [key: s
   });
 }
 
+export function commentReply(body: API.CommentReplyRequest, options?: { [key: string]: any }) {
+  return request<API.CommentListType[]>('/api/comment/reply', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  });
+}
+
+export function commentAdd(body: API.CommentAddRequest, options?: { [key: string]: any }) {
+  return request<API.CommentListType[]>('/api/comment/add', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  });
+}
+
 /** 此处后端没有提供注释 GET /api/notices */
 export async function getNotices(options?: { [key: string]: any }) {
   return request<API.NoticeIconList>('/api/notices', {

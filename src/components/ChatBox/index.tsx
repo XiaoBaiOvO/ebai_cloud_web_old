@@ -1,14 +1,20 @@
-import { dislikeComment, getCommentList, likeComment } from '@/services/ant-design-pro/api';
+import {
+  commentAdd,
+  commentReply,
+  dislikeComment,
+  getCommentList,
+  likeComment,
+} from '@/services/ant-design-pro/api';
 import { DislikeFilled, DislikeOutlined, LikeFilled, LikeOutlined } from '@ant-design/icons';
 import { useModel } from '@umijs/max';
-import { Avatar, Button, Comment, Form, Input, List, Tooltip } from 'antd';
+import { Avatar, Button, Comment, Divider, Form, Input, List, Tooltip } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
 import React, { createElement, useEffect, useState } from 'react';
 
 const { Search } = Input;
 
 const ChatBox: React.FC = () => {
-  const [action, setAction] = useState<API.CommentAction>({ id: '', action: false });
+  const [replyAction, setReplyAction] = useState<API.CommentAction>({ key: '', isAction: false });
   const [submitting, setSubmitting] = useState(false);
   const [value, setValue] = useState('');
   const [commentList, setCommentList] = useState<API.CommentListType[]>([]);
@@ -17,6 +23,7 @@ const ChatBox: React.FC = () => {
   const { currentUser } = initialState;
 
   const commentTextInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    console.log(e.target.value);
     setValue(e.target.value);
   };
 
@@ -30,15 +37,20 @@ const ChatBox: React.FC = () => {
 
   const submitComment = () => {
     if (!value) return;
-    console.log(value);
+    const request: API.CommentAddRequest = {
+      userid: currentUser.userid,
+      name: currentUser.name,
+      avatar: currentUser.avatar,
+      content: value,
+    };
     setSubmitting(true);
-    setTimeout(() => {
+    commentAdd(request).then((r) => {
       setValue('');
+      refreshCommentList().then();
       setSubmitting(false);
-    }, 500);
+      console.log(r);
+    });
   };
-
-  let isReply = false;
 
   const commentActions = (item: API.CommentListType) => {
     const request: API.CommentLikeRequest = { id: item.id, userid: currentUser.userid };
@@ -51,20 +63,28 @@ const ChatBox: React.FC = () => {
       setCommentList(await dislikeComment(request));
     };
 
-    const submitReply = (replyValue: string) => console.log(replyValue);
-
     const changeActive = () => {
-      isReply = !isReply;
-      console.log(isReply);
-      if (action.action) {
-        if (action.id == item.id) {
-          setAction({ id: item.id, action: !action.action });
+      if (replyAction.key) {
+        if (replyAction.key == item.id + '0') {
+          setReplyAction({ key: item.id + '0', isAction: !replyAction.isAction });
         } else {
-          setAction({ id: item.id, action: action.action });
+          setReplyAction({ key: item.id + '0', isAction: replyAction.isAction });
         }
       } else {
-        setAction({ id: item.id, action: !action.action });
+        setReplyAction({ key: item.id + '0', isAction: !replyAction.isAction });
       }
+    };
+
+    const submitReply = async (replyValue: string) => {
+      const replyRequest: API.CommentReplyRequest = {
+        id: item.id,
+        userid: currentUser.userid,
+        name: currentUser.name,
+        avatar: currentUser.avatar,
+        content: replyValue,
+      };
+      setCommentList(await commentReply(replyRequest));
+      changeActive();
     };
 
     return [
@@ -85,15 +105,7 @@ const ChatBox: React.FC = () => {
       <span key="comment-basic-reply-to" onClick={changeActive}>
         Reply to
       </span>,
-      action.id == item.id && action.action ? (
-        <Search
-          onSearch={submitReply}
-          enterButton="sent"
-          size={'small'}
-          style={{ marginBottom: -5 }}
-        />
-      ) : null,
-      isReply ? (
+      replyAction.key == item.id + '0' && replyAction.isAction ? (
         <Search
           onSearch={submitReply}
           enterButton="sent"
@@ -104,16 +116,61 @@ const ChatBox: React.FC = () => {
     ];
   };
 
-  const replyActions = [<span key="comment-basic-reply-to">Reply to</span>];
+  const replyActions = (item: API.CommentListType, replyItem: API.CommentReplyType) => {
+    const changeActive = () => {
+      if (replyAction.isAction) {
+        if (replyAction.key == item.id + replyItem.id) {
+          setReplyAction({ key: item.id + replyItem.id, isAction: !replyAction.isAction });
+        } else {
+          setReplyAction({ key: item.id + replyItem.id, isAction: replyAction.isAction });
+        }
+      } else {
+        setReplyAction({ key: item.id + replyItem.id, isAction: !replyAction.isAction });
+      }
+    };
+
+    const submitReply = async (replyValue: string) => {
+      const replyRequest: API.CommentReplyRequest = {
+        id: item.id,
+        userid: currentUser.userid,
+        name: currentUser.name,
+        avatar: currentUser.avatar,
+        content: replyValue,
+      };
+      setCommentList(await commentReply(replyRequest));
+      changeActive();
+    };
+
+    return [
+      <span key="comment-basic-reply-to" onClick={changeActive}>
+        Reply to
+      </span>,
+      replyAction.key == item.id + replyItem.id && replyAction.isAction ? (
+        <Search
+          onSearch={submitReply}
+          enterButton="sent"
+          size={'small'}
+          style={{ marginBottom: -5 }}
+        />
+      ) : null,
+    ];
+  };
 
   return (
     <div style={{ marginLeft: 20, marginRight: 20, marginTop: 20 }}>
       <Comment
+        style={{ marginTop: -16 }}
         avatar={<Avatar src={currentUser.avatar} alt="" />}
         content={
           <div>
             <Form.Item>
-              <TextArea rows={4} value={value} onChange={commentTextInput} />
+              <TextArea
+                rows={4}
+                value={value}
+                onChange={commentTextInput}
+                autoSize={{ minRows: 3 }}
+                onPressEnter={submitComment}
+              />
             </Form.Item>
             <Form.Item>
               <Button htmlType="submit" loading={submitting} onClick={submitComment} type="primary">
@@ -124,10 +181,13 @@ const ChatBox: React.FC = () => {
         }
       />
       <List
+        itemLayout="horizontal"
+        style={{ marginTop: -32 }}
         dataSource={commentList}
         renderItem={(item) => (
-          <li>
+          <div>
             <Comment
+              style={{ marginTop: -16 }}
               actions={commentActions(item)}
               author={item.author}
               avatar={item.avatar}
@@ -135,10 +195,12 @@ const ChatBox: React.FC = () => {
               datetime={item.datetime}
             >
               <List
+                style={{ marginTop: -16 }}
                 dataSource={item.reply}
+                locale={{ emptyText: ' ' }}
                 renderItem={(replyItem) => (
                   <Comment
-                    actions={replyActions}
+                    actions={replyActions(item, replyItem)}
                     author={replyItem.author}
                     avatar={replyItem.avatar}
                     content={replyItem.content}
@@ -147,7 +209,8 @@ const ChatBox: React.FC = () => {
                 )}
               />
             </Comment>
-          </li>
+            <Divider style={{ marginTop: -12 }} />
+          </div>
         )}
       />
     </div>
