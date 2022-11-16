@@ -1,5 +1,5 @@
 import News from '@/components/News';
-import { PageContainer } from '@ant-design/pro-components';
+import { PageContainer, ProCard } from '@ant-design/pro-components';
 import { Card, Carousel, Col, Row } from 'antd';
 import React from 'react';
 import ChatBox from '../components/ChatBox/index';
@@ -35,18 +35,34 @@ const Welcome: React.FC = () => {
         </div>
       </Carousel>
 
+      <ProCard wrap ghost gutter={[20, 20]}>
+        <ProCard colSpan={{ xs: 24, sm: 24, md: 24, lg: 24, xl: 18 }} bodyStyle={{ padding: 0 }}>
+          <Card title="热点新闻" bodyStyle={{ padding: 0 }}>
+            <News />
+          </Card>
+        </ProCard>
+
+        <ProCard colSpan={{ xs: 24, sm: 24, md: 24, lg: 24, xl: 6 }} bodyStyle={{ padding: 0 }}>
+          <Card title="个人中心" bodyStyle={{ padding: 0 }}>
+            <PersonalInfo />
+          </Card>
+        </ProCard>
+      </ProCard>
+
+      <br />
+
       <Row gutter={20}>
         <Col span={18}>
-          <div>
-            <Card
-              style={{ marginBottom: 24 }}
-              title="热点新闻"
-              bordered={false}
-              bodyStyle={{ padding: 0 }}
-            >
-              <News />
-            </Card>
-          </div>
+          {/*<div>*/}
+          {/*  <Card*/}
+          {/*    style={{ marginBottom: 24 }}*/}
+          {/*    title="热点新闻"*/}
+          {/*    bordered={false}*/}
+          {/*    bodyStyle={{ padding: 0 }}*/}
+          {/*  >*/}
+          {/*    <News />*/}
+          {/*  </Card>*/}
+          {/*</div>*/}
           <div>
             <Card
               style={{ marginBottom: 24 }}
@@ -59,16 +75,16 @@ const Welcome: React.FC = () => {
           </div>
         </Col>
 
-        <Col span={6}>
-          <Card
-            style={{ marginBottom: 24 }}
-            title="个人中心"
-            bordered={false}
-            bodyStyle={{ padding: 0 }}
-          >
-            <PersonalInfo />
-          </Card>
-        </Col>
+        {/*<Col span={6}>*/}
+        {/*  <Card*/}
+        {/*    style={{ marginBottom: 24 }}*/}
+        {/*    title="个人中心"*/}
+        {/*    bordered={false}*/}
+        {/*    bodyStyle={{ padding: 0 }}*/}
+        {/*  >*/}
+        {/*    <PersonalInfo />*/}
+        {/*  </Card>*/}
+        {/*</Col>*/}
       </Row>
     </PageContainer>
   );

@@ -87,6 +87,28 @@ declare namespace API {
     type?: string;
   };
 
+  type MobileCaptcha = {
+    mobile?: string;
+  };
+
+  type NewsList = {
+    newsList?: NewsDetail[];
+  };
+
+  type NewsDetail = {
+    brief: string;
+    image: string;
+    image3: string;
+    keywords: string;
+    focus_date: string;
+    ext_field: string;
+    count: string;
+    id: string;
+    title: string;
+    image2: string;
+    url: string;
+  };
+
   type ErrorResponse = {
     /** 业务约定的错误码 */
     errorCode: string;

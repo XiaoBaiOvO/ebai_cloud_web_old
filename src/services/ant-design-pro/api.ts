@@ -7,7 +7,7 @@ import axios from 'axios';
 export async function currentUser(options?: { [key: string]: any }) {
   return request<{
     data: API.CurrentUser;
-  }>('/api/currentUser', {
+  }>('/api/user/currentUser', {
     method: 'POST',
     ...(options || {}),
   });
@@ -15,7 +15,7 @@ export async function currentUser(options?: { [key: string]: any }) {
 
 /** 退出登录接口 POST /api/login/outLogin */
 export async function outLogin(options?: { [key: string]: any }) {
-  return request<Record<string, any>>('/api/login/outLogin', {
+  return request<Record<string, any>>('/api/user/outLogin', {
     method: 'POST',
     ...(options || {}),
   });
@@ -23,12 +23,30 @@ export async function outLogin(options?: { [key: string]: any }) {
 
 /** 登录接口 POST /api/login/account */
 export async function login(body: API.LoginParams, options?: { [key: string]: any }) {
-  return request<API.LoginResult>('/api/login/account', {
+  return request<API.LoginResult>('/api/user/login', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     data: body,
+    ...(options || {}),
+  });
+}
+
+export async function getMobileCaptcha(body: API.MobileCaptcha, options?: { [key: string]: any }) {
+  return request<API.FakeCaptcha>('/api/user/login/mobile/captcha', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  });
+}
+
+export async function getNewsList(options?: { [key: string]: any }) {
+  return request<API.NewsList>('/api/getNewsList', {
+    method: 'POST',
     ...(options || {}),
   });
 }
@@ -50,6 +68,16 @@ export async function getCommentList(options?: { [key: string]: any }) {
     ...(options || {}),
   });
 }
+
+// export async function getNewsList(options?: { [key: string]: any }) {
+//   return request<API.NewsListType[]>('/api/news/getNewsList', {
+//     method: 'POST',
+//     headers: {
+//       'Content-Type': 'application/json',
+//     },
+//     ...(options || {}),
+//   });
+// }
 
 export function likeComment(body: API.CommentLikeRequest, options?: { [key: string]: any }) {
   return request<API.CommentListType[]>('/api/comment/like', {

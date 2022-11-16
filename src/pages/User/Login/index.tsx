@@ -1,6 +1,5 @@
 import Footer from '@/components/Footer';
-import { login } from '@/services/ant-design-pro/api';
-import { getFakeCaptcha } from '@/services/ant-design-pro/login';
+import { getMobileCaptcha, login } from '@/services/ant-design-pro/api';
 import {
   AlipayCircleOutlined,
   LockOutlined,
@@ -11,6 +10,7 @@ import {
 } from '@ant-design/icons';
 import {
   LoginForm,
+  ProForm,
   ProFormCaptcha,
   ProFormCheckbox,
   ProFormText,
@@ -39,7 +39,7 @@ const Login: React.FC = () => {
   const [userLoginState, setUserLoginState] = useState<API.LoginResult>({});
   const [type, setType] = useState<string>('account');
   const { initialState, setInitialState } = useModel('@@initialState');
-
+  const [form] = ProForm.useForm();
   const intl = useIntl();
 
   const fetchUserInfo = async () => {
@@ -56,7 +56,7 @@ const Login: React.FC = () => {
     try {
       // 登录
       const msg = await login({ ...values, type });
-      if (msg.status === 'ok') {
+      if (msg.status === 'success') {
         const defaultLoginSuccessMessage = intl.formatMessage({
           id: 'pages.login.success',
           defaultMessage: '登录成功！',
@@ -91,6 +91,7 @@ const Login: React.FC = () => {
           logo={<img alt="logo" src="/logo.png" />}
           title="小白云工作站"
           subTitle={intl.formatMessage({ id: 'pages.layouts.userLayout.title' })}
+          form={form}
           initialValues={{
             autoLogin: true,
           }}
@@ -103,6 +104,9 @@ const Login: React.FC = () => {
             <AlipayCircleOutlined key="AlipayCircleOutlined" className={styles.icon} />,
             <TaobaoCircleOutlined key="TaobaoCircleOutlined" className={styles.taobaoIcon} />,
             <WeiboCircleOutlined key="WeiboCircleOutlined" className={styles.weiboIcon} />,
+            <a style={{ float: 'right' }} key="Register">
+              <FormattedMessage id="pages.login.registerAccount" />
+            </a>,
           ]}
           onFinish={async (values) => {
             await handleSubmit(values as API.LoginParams);
@@ -143,7 +147,6 @@ const Login: React.FC = () => {
                 }}
                 placeholder={intl.formatMessage({
                   id: 'pages.login.username.placeholder',
-                  defaultMessage: '用户名: admin or user',
                 })}
                 rules={[
                   {
@@ -165,7 +168,7 @@ const Login: React.FC = () => {
                 }}
                 placeholder={intl.formatMessage({
                   id: 'pages.login.password.placeholder',
-                  defaultMessage: '密码: ant.design',
+                  defaultMessage: '密码',
                 })}
                 rules={[
                   {
@@ -252,14 +255,12 @@ const Login: React.FC = () => {
                     ),
                   },
                 ]}
-                onGetCaptcha={async (phone) => {
-                  const result = await getFakeCaptcha({
-                    phone,
-                  });
+                onGetCaptcha={async () => {
+                  const result = await getMobileCaptcha({ mobile: form.getFieldValue('mobile') });
                   if (result === false) {
                     return;
                   }
-                  message.success('获取验证码成功！验证码为：1234');
+                  message.success('获取验证码成功');
                 }}
               />
             </>

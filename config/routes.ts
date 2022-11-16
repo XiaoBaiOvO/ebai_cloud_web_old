@@ -1,5 +1,19 @@
 ﻿export default [
   {
+    path: '/index',
+    layout: false,
+    routes: [
+      {
+        name: 'index',
+        path: '/index',
+        component: './User/Login',
+      },
+      {
+        component: './404',
+      },
+    ],
+  },
+  {
     path: '/user',
     layout: false,
     routes: [

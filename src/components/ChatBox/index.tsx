@@ -23,7 +23,6 @@ const ChatBox: React.FC = () => {
   const { currentUser } = initialState;
 
   const commentTextInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    console.log(e.target.value);
     setValue(e.target.value);
   };
 
@@ -44,11 +43,10 @@ const ChatBox: React.FC = () => {
       content: value,
     };
     setSubmitting(true);
-    commentAdd(request).then((r) => {
+    commentAdd(request).then(() => {
       setValue('');
       refreshCommentList().then();
       setSubmitting(false);
-      console.log(r);
     });
   };
 
@@ -90,14 +88,18 @@ const ChatBox: React.FC = () => {
     return [
       <Tooltip key="comment-basic-like" title="Like">
         <span onClick={like}>
-          {createElement(item.likes.indexOf(currentUser.userid) != -1 ? LikeFilled : LikeOutlined)}
+          {createElement(
+            item.likes.indexOf(currentUser.userid as string) != -1 ? LikeFilled : LikeOutlined,
+          )}
           <span>{item.likes.length}</span>
         </span>
       </Tooltip>,
       <Tooltip key="comment-basic-dislike" title="Dislike">
         <span onClick={dislike}>
           {React.createElement(
-            item.dislikes.indexOf(currentUser.userid) != -1 ? DislikeFilled : DislikeOutlined,
+            item.dislikes.indexOf(currentUser.userid as string) != -1
+              ? DislikeFilled
+              : DislikeOutlined,
           )}
           <span>{item.dislikes.length}</span>
         </span>
