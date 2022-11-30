@@ -1,47 +1,91 @@
-import {PageContainer} from '@ant-design/pro-components';
-import {FormattedMessage, useIntl} from '@umijs/max';
-import {Alert, Card, Typography} from 'antd';
+import News from '@/components/News';
+import { PageContainer, ProCard } from '@ant-design/pro-components';
+import { Card, Carousel, Col, Row } from 'antd';
 import React from 'react';
-import styles from './Welcome.less';
+import ChatBox from '../components/ChatBox/index';
+import PersonalInfo from '../components/PersonalInfo/index';
 
-const CodePreview: React.FC = ({children}) => (
-  <pre className={styles.pre}>
-    <code>
-      <Typography.Text copyable>{children}</Typography.Text>
-    </code>
-  </pre>
-);
+const contentStyle1: React.CSSProperties = {
+  height: '200px',
+  color: '#fff',
+  lineHeight: '200px',
+  textAlign: 'center',
+  background: '#4a8cfe',
+  fontSize: 30,
+};
+
+const contentStyle2: React.CSSProperties = {
+  height: '200px',
+  color: '#fff',
+  lineHeight: '200px',
+  textAlign: 'center',
+  background: '#d79ad0',
+  fontSize: 30,
+};
 
 const Welcome: React.FC = () => {
-  const intl = useIntl();
-
   return (
     <PageContainer>
-      <Card>
-        <Alert
-          message={intl.formatMessage({
-            id: 'pages.welcome.alertMessage',
-            defaultMessage: 'Faster and stronger heavy-duty components have been released.',
-          })}
-          type="success"
-          showIcon
-          banner
-          style={{
-            margin: -12,
-            marginBottom: 24,
-          }}
-        />
-        <Typography.Text strong>
-          <a
-            href="https://procomponents.ant.design/components/table"
-            rel="noopener noreferrer"
-            target="__blank"
-          >
-            <FormattedMessage id="pages.welcome.link" defaultMessage="Welcome"/>
-          </a>
-        </Typography.Text>
-        <CodePreview>yarn add @ant-design/pro-components</CodePreview>
-      </Card>
+      <Carousel autoplay>
+        <div>
+          <h3 style={contentStyle1}>网站维护中..</h3>
+        </div>
+        <div>
+          <h3 style={contentStyle2}>敬请期待..</h3>
+        </div>
+      </Carousel>
+
+      <ProCard wrap ghost gutter={[20, 20]}>
+        <ProCard colSpan={{ xs: 24, sm: 24, md: 24, lg: 24, xl: 18 }} bodyStyle={{ padding: 0 }}>
+          <Card title="热点新闻" bodyStyle={{ padding: 0 }}>
+            <News />
+          </Card>
+        </ProCard>
+
+        <ProCard colSpan={{ xs: 24, sm: 24, md: 24, lg: 24, xl: 6 }} bodyStyle={{ padding: 0 }}>
+          <Card title="个人中心" bodyStyle={{ padding: 0 }}>
+            <PersonalInfo />
+          </Card>
+        </ProCard>
+      </ProCard>
+
+      <br />
+
+      <Row gutter={20}>
+        <Col span={18}>
+          {/*<div>*/}
+          {/*  <Card*/}
+          {/*    style={{ marginBottom: 24 }}*/}
+          {/*    title="热点新闻"*/}
+          {/*    bordered={false}*/}
+          {/*    bodyStyle={{ padding: 0 }}*/}
+          {/*  >*/}
+          {/*    <News />*/}
+          {/*  </Card>*/}
+          {/*</div>*/}
+          <div>
+            <Card
+              style={{ marginBottom: 24 }}
+              title="小白云社区"
+              bordered={false}
+              bodyStyle={{ padding: 0 }}
+            >
+              <ChatBox />
+            </Card>
+          </div>
+        </Col>
+
+        {/*<Col span={6}>*/}
+        {/*  <Card*/}
+        {/*    style={{ marginBottom: 24 }}*/}
+        {/*    title="个人中心"*/}
+        {/*    bordered={false}*/}
+        {/*    bodyStyle={{ padding: 0 }}*/}
+        {/*  >*/}
+        {/*    <PersonalInfo />*/}
+        {/*  </Card>*/}
+        {/*</Col>*/}
+      </Row>
     </PageContainer>
   );
 };

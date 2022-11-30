@@ -29,6 +29,25 @@ declare namespace API {
     currentAuthority?: string;
   };
 
+  type CommentReplyType = {
+    id: string;
+    author: string;
+    avatar: string;
+    content: string;
+    datetime: string;
+  };
+
+  type CommentListType = {
+    id: string;
+    author: string;
+    avatar: string;
+    content: string;
+    datetime: string;
+    likes: string[];
+    dislikes: string[];
+    reply: CommentReplyType[];
+  };
+
   type PageParams = {
     current?: number;
     pageSize?: number;
@@ -49,6 +68,15 @@ declare namespace API {
     progress?: number;
   };
 
+  type RequestLogItem = {
+    url?: string;
+    ip?: string;
+    location?: string;
+    userAgent?: string;
+    userName?: string;
+    date?: string;
+  };
+
   type RuleList = {
     data?: RuleListItem[];
     /** 列表的内容总数 */
@@ -66,6 +94,28 @@ declare namespace API {
     password?: string;
     autoLogin?: boolean;
     type?: string;
+  };
+
+  type MobileCaptcha = {
+    mobile?: string;
+  };
+
+  type NewsList = {
+    newsList?: NewsDetail[];
+  };
+
+  type NewsDetail = {
+    brief: string;
+    image: string;
+    image3: string;
+    keywords: string;
+    focus_date: string;
+    ext_field: string;
+    count: string;
+    id: string;
+    title: string;
+    image2: string;
+    url: string;
   };
 
   type ErrorResponse = {
@@ -97,5 +147,31 @@ declare namespace API {
     datetime?: string;
     description?: string;
     type?: NoticeIconItemType;
+  };
+
+  // comment type
+  type CommentAction = {
+    key?: string;
+    isAction?: boolean;
+  };
+
+  type CommentLikeRequest = {
+    userid?: string;
+    id?: string;
+  };
+
+  type CommentAddRequest = {
+    userid?: string;
+    name?: string;
+    avatar?: string;
+    content?: string;
+  };
+
+  type CommentReplyRequest = {
+    userid?: string;
+    id?: string;
+    name?: string;
+    avatar?: string;
+    content?: string;
   };
 }

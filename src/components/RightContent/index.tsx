@@ -1,6 +1,6 @@
-import {QuestionCircleOutlined} from '@ant-design/icons';
-import {SelectLang, useModel} from '@umijs/max';
-import {Space} from 'antd';
+import { QuestionCircleOutlined } from '@ant-design/icons';
+import { SelectLang, useModel } from '@umijs/max';
+import { Space } from 'antd';
 import React from 'react';
 import HeaderSearch from '../HeaderSearch';
 import Avatar from './AvatarDropdown';
@@ -9,13 +9,13 @@ import styles from './index.less';
 export type SiderTheme = 'light' | 'dark';
 
 const GlobalHeaderRight: React.FC = () => {
-  const {initialState} = useModel('@@initialState');
+  const { initialState } = useModel('@@initialState');
 
   if (!initialState || !initialState.settings) {
     return null;
   }
 
-  const {navTheme, layout} = initialState.settings;
+  const { navTheme, layout } = initialState.settings;
   let className = styles.right;
 
   if ((navTheme === 'dark' && layout === 'top') || layout === 'mix') {
@@ -26,20 +26,23 @@ const GlobalHeaderRight: React.FC = () => {
       <HeaderSearch
         className={`${styles.action} ${styles.search}`}
         placeholder="站内搜索"
-        defaultValue="umi ui"
+        defaultValue="ebai.cloud"
         options={[
-          {label: <a href="https://umijs.org/zh/guide/umi-ui.html">umi ui</a>, value: 'umi ui'},
           {
-            label: <a href="next.ant.design">Ant Design</a>,
-            value: 'Ant Design',
+            label: <a href="">ebai.cloud</a>,
+            value: '1',
           },
           {
-            label: <a href="https://protable.ant.design/">Pro Table</a>,
-            value: 'Pro Table',
+            label: <a href="">ebai.cloud 2</a>,
+            value: '2',
           },
           {
-            label: <a href="https://prolayout.ant.design/">Pro Layout</a>,
-            value: 'Pro Layout',
+            label: <a href="">ebai.cloud 3</a>,
+            value: '3',
+          },
+          {
+            label: <a href="">ebai.cloud 4</a>,
+            value: '4',
           },
         ]}
         // onSearch={value => {
@@ -49,13 +52,13 @@ const GlobalHeaderRight: React.FC = () => {
       <span
         className={styles.action}
         onClick={() => {
-          window.open('https://pro.ant.design/docs/getting-started');
+          window.open('');
         }}
       >
-        <QuestionCircleOutlined/>
+        <QuestionCircleOutlined />
       </span>
-      <Avatar/>
-      <SelectLang className={styles.action}/>
+      <Avatar />
+      <SelectLang className={styles.action} />
     </Space>
   );
 };
