@@ -68,6 +68,15 @@ declare namespace API {
     progress?: number;
   };
 
+  type RequestLogItem = {
+    url?: string;
+    ip?: string;
+    location?: string;
+    userAgent?: string;
+    userName?: string;
+    date?: string;
+  };
+
   type RuleList = {
     data?: RuleListItem[];
     /** 列表的内容总数 */

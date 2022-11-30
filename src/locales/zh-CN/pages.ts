@@ -62,4 +62,10 @@ export default {
   'pages.searchTable.tenThousand': '万',
   'pages.searchTable.batchDeletion': '批量删除',
   'pages.searchTable.batchApproval': '批量审批',
+  'pages.requestLogTable.url': 'URL',
+  'pages.requestLogTable.ip': 'IP地址',
+  'pages.requestLogTable.location': 'IP地址定位',
+  'pages.requestLogTable.userAgent': '设备信息',
+  'pages.requestLogTable.userName': '用户名',
+  'pages.requestLogTable.date': '访问日期',
 };

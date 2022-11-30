@@ -1,5 +1,12 @@
 ﻿export default [
   {
+    path: '/collection',
+    layout: false,
+    name: 'Collection',
+    icon: 'homeOutlined',
+    component: './Collection',
+  },
+  {
     path: '/index',
     layout: false,
     routes: [
@@ -40,7 +47,7 @@
   //   access: 'canAdmin',
   //   routes: [
   //     {
-  //       path: '/admin/sub-page',
+  //       path: 'admin/sub-page',
   //       name: 'sub-page',
   //       icon: 'smile',
   //       component: './Welcome',
